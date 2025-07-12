@@ -1,3 +1,8 @@
-export default function() {
-    return <div className="text-xl">Watch later page!</div>;
+"use client";
+
+import Movies from "@/components/Movies";
+import { Title } from "@/lib/definitions";
+
+export default function () {
+  return <div></div>;
 }

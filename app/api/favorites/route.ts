@@ -23,5 +23,5 @@ export const GET = auth(async (req: NextRequest) => {
 
   const favorites = await fetchFavorites(page, email);
 
-  return NextResponse.json({ favorites });
+  return NextResponse.json({ titles: favorites });
 });

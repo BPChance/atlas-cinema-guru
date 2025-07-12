@@ -1,3 +1,9 @@
-export default function Page() {
-  return <div className="text-xl">Home page auth/page.tsx</div>;
+import { auth } from "@/auth";
+import HomePageClient from "@/components/HomePageClient";
+
+export default async function Page() {
+  const session = await auth();
+
+  return <HomePageClient userEmail={session?.user?.email ?? ""} />;
+
 }
