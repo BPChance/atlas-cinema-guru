@@ -33,13 +33,21 @@ export async function fetchTitles(
     ).map((row) => row.title_id);
 
     //Fetch titles
-    const titles = await db
+    let queryBuilder = db
       .selectFrom("titles")
       .selectAll("titles")
       .where("titles.released", ">=", minYear)
-      .where("titles.released", "<=", maxYear)
-      .where("titles.title", "ilike", `%${query}%`)
-      .where("titles.genre", "in", genres)
+      .where("titles.released", "<=", maxYear);
+
+    if (query) {
+      queryBuilder = queryBuilder.where("titles.title", "ilike", `%${query}%`);
+    }
+
+    if (genres.length > 0) {
+      queryBuilder = queryBuilder.where("titles.genre", "in", genres);
+    }
+
+    const titles = await queryBuilder
       .orderBy("titles.title", "asc")
       .limit(6)
       .offset((page - 1) * 6)
@@ -134,6 +142,15 @@ export async function favoriteExists(title_id: string, userEmail: string) {
     throw new Error("Failed to fetch favorite.");
   }
 }
+// toggle favorites
+export async function toggleFavorite(title_id: string, userEmail: string) {
+  const exists = await favoriteExists(title_id, userEmail);
+  if (exists) {
+    await deleteFavorite(title_id, userEmail);
+  } else {
+    await insertFavorite(title_id, userEmail);
+  }
+}
 
 /**
  * Get a users watch later list.
@@ -214,6 +231,15 @@ export async function watchLaterExists(
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch watchLater.");
+  }
+}
+// toggle watch later
+export async function toggleWatchLater(title_id: string, userEmail: string) {
+  const exists = await watchLaterExists(title_id, userEmail);
+  if (exists) {
+    await deleteWatchLater(title_id, userEmail);
+  } else {
+    await insertWatchLater(title_id, userEmail);
   }
 }
 

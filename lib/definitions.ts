@@ -1,6 +1,8 @@
 // This file contains type definitions for your data.
 // It describes the shape of the data, and what data type each property should accept.
 
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
 export type User = {
   id: string;
   name: string;
@@ -23,9 +25,12 @@ export type Question = {
 export type Title = {
   id: string;
   title: string;
-  synopsis: string;
   released: number;
   genre: string;
+  synopsis: string;
+  image: string;
+  favorited: boolean;
+  watchLater: boolean;
 };
 
 export type UsersTitle = Title & {
