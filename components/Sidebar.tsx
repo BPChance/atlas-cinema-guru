@@ -18,16 +18,16 @@ export default function Sidebar() {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <nav className="flex flex-col items-center justify-center gap-4 p-5">
-        <Link href="/" className="flex flex-row gap-3">
+      <nav className="flex flex-col justify-center gap-4 p-5">
+        <Link href="/" className="flex items-center flex-row gap-3">
           <Image src={folder} alt="home" className="w-8 h-8" />
           {expanded && "Home"}
         </Link>
-        <Link href="/favorites" className="flex flex-row gap-3">
+        <Link href="/favorites" className="flex items-center flex-row gap-3">
           <Image src={star} alt="favorite" className="w-8 h-8" />
           {expanded && "Favorites"}
         </Link>
-        <Link href="/watch-later" className="flex flex-row gap-3">
+        <Link href="/watch-later" className="flex items-center flex-row gap-3">
           <Image src={clock} alt="watch-later" className="w-8 h-8" />
           {expanded && "Watch Later"}
         </Link>
