@@ -17,8 +17,10 @@ export default async function AuthLayout({
   return (
     <div className="h-screen flex flex-col">
       <Header userEmail={session.user?.email ?? undefined} />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div className="w-full md:w-auto">
+          <Sidebar />
+        </div>
         <main className="flex-1 overflow-y-auto p-4">{children}</main>
       </div>
     </div>

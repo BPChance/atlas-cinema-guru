@@ -12,28 +12,54 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-teal-600 text-white transition-all duration-300 ${
-        expanded ? "w-54" : "w-20"
-      }`}
+      className={`bg-teal-600 text-white transition-all duration-300
+        ${expanded ? "w-full md:w-54" : "w-full md:w-20"}
+        h-auto md:h-full
+        flex md:flex-col items-center justify-around md:items-start md:justify-start
+      `}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <nav className="flex flex-col justify-center gap-4 p-5">
-        <Link href="/" className="flex items-center flex-row gap-3">
-          <Image src={folder} alt="home" className="w-8 h-8" />
-          {expanded && "Home"}
+      <nav className="flex w-full flex-row md:flex-col gap-4 p-2 justify-around md:justify-start md:items-start">
+        <Link
+          href="/"
+          className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
+        >
+          <Image src={folder} alt="home" className="w-6 h-6 md:w-8 md:h-8" />
+          <span className="block md:hidden text-sm md:text-base">Home</span>
+          {expanded && <span className="hidden md:inline text-base">Home</span>}
         </Link>
-        <Link href="/favorites" className="flex items-center flex-row gap-3">
-          <Image src={star} alt="favorite" className="w-8 h-8" />
-          {expanded && "Favorites"}
+        <Link
+          href="/favorites"
+          className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
+        >
+          <Image src={star} alt="favorite" className="w-6 h-6 md:w-8 md:h-8 " />
+          <span className="block md:hidden text-sm md:text-base">
+            Favorites
+          </span>
+          {expanded && (
+            <span className="hidden md:inline text-base">Favorites</span>
+          )}
         </Link>
-        <Link href="/watch-later" className="flex items-center flex-row gap-3">
-          <Image src={clock} alt="watch-later" className="w-8 h-8" />
-          {expanded && "Watch Later"}
+        <Link
+          href="/watch-later"
+          className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
+        >
+          <Image
+            src={clock}
+            alt="watch-later"
+            className="w-6 h-6 md:w-8 md:h-8"
+          />
+          <span className="block md:hidden text-sm md:text-base">
+            Watch Later
+          </span>
+          {expanded && (
+            <span className="hidden md:inline text-base">Watch Later</span>
+          )}
         </Link>
       </nav>
       {expanded && (
-        <div className="p-4 mx-4 text-base rounded-md bg-teal-500">
+        <div className="hidden md:block p-4 mx-4 text-base rounded-md bg-teal-500">
           <div className="flex items-center justify-center gap-2 text-black font-bold">
             Latest Activities
           </div>

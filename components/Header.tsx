@@ -12,7 +12,7 @@ export default function Header({ userEmail }: { userEmail?: string }) {
         <Image src={film} alt="cinema logo" width={25} height={25} />
         Cinema Guru
       </div>
-      <div className="flex items-center">
+      <div className="hidden md:flex items-center">
         <span className="text-black">Welcome, {userEmail}</span>
         <button
           onClick={() => signOut()}
