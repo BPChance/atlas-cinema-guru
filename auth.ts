@@ -10,8 +10,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub],
   callbacks: {
     authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
+    },
+    async jwt({ token, account, profile }) {
+      if (profile?.email) {
+        token.email = profile.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.email) {
+        session.user.email = token.email as string;
+      }
+      return session;
     },
   },
 });
