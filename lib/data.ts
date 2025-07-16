@@ -107,7 +107,7 @@ export async function insertFavorite(title_id: string, userEmail: string) {
   try {
     const data =
       await sql<Question>`INSERT INTO favorites (title_id, user_id) VALUES (${title_id}, ${userEmail})`;
-    insertActivity(title_id, userEmail, "FAVORITED");
+    await insertActivity(title_id, userEmail, "FAVORITED");
     return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
@@ -195,7 +195,7 @@ export async function insertWatchLater(title_id: string, userEmail: string) {
     const data =
       await sql<Question>`INSERT INTO watchLater (title_id, user_id) VALUES (${title_id}, ${userEmail})`;
 
-    insertActivity(title_id, userEmail, "WATCH_LATER");
+    await insertActivity(title_id, userEmail, "WATCH_LATER");
     return data.rows;
   } catch (error) {
     console.error("Database Error:", error);
