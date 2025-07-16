@@ -6,6 +6,7 @@ import { useState } from "react";
 import folder from "assets/Solid/folder.svg";
 import star from "assets/Solid/filledStar.svg";
 import clock from "assets/Solid/filledClock.svg";
+import ActivityFeed from "./ActivityFeed";
 
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -20,12 +21,12 @@ export default function Sidebar() {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <nav className="flex w-full flex-row md:flex-col gap-4 p-2 justify-around md:justify-start md:items-start">
+      <nav className="flex w-full flex-row md:flex-col gap-4 p-2 py-6 space-y-3 justify-around md:justify-start md:items-start">
         <Link
           href="/"
           className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
         >
-          <Image src={folder} alt="home" className="w-6 h-6 md:w-8 md:h-8" />
+          <Image src={folder} alt="home" className="w-6 h-6" />
           <span className="block md:hidden text-sm md:text-base">Home</span>
           {expanded && <span className="hidden md:inline text-base">Home</span>}
         </Link>
@@ -33,7 +34,7 @@ export default function Sidebar() {
           href="/favorites"
           className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
         >
-          <Image src={star} alt="favorite" className="w-6 h-6 md:w-8 md:h-8 " />
+          <Image src={star} alt="favorite" className="w-6 h-6" />
           <span className="block md:hidden text-sm md:text-base">
             Favorites
           </span>
@@ -45,11 +46,7 @@ export default function Sidebar() {
           href="/watch-later"
           className="flex items-center flex-row gap-1 md:gap-3 md:pl-4"
         >
-          <Image
-            src={clock}
-            alt="watch-later"
-            className="w-6 h-6 md:w-8 md:h-8"
-          />
+          <Image src={clock} alt="watch-later" className="w-6 h-6" />
           <span className="block md:hidden text-sm md:text-base">
             Watch Later
           </span>
@@ -63,6 +60,7 @@ export default function Sidebar() {
           <div className="flex items-center justify-center gap-2 text-black font-bold">
             Latest Activities
           </div>
+          <ActivityFeed />
         </div>
       )}
     </aside>
