@@ -31,15 +31,7 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
   }, [titles]);
 
   const handleToggleFavorite = async (id: string) => {
-    const res = await fetch(`/api/favorites/${id}`, {
-      method: "POST",
-    });
-
-    if (res.status === 409) {
-      await fetch(`/api/favorites/${id}`, {
-        method: "DELETE",
-      });
-    }
+    await fetch(`/api/favorites/${id}`, { method: "POST" });
 
     setMovieList((prev) =>
       prev.map((movie) =>
@@ -49,15 +41,7 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
   };
 
   const handleToggleWatchLater = async (id: string) => {
-    const res = await fetch(`/api/watchlater/${id}`, {
-      method: "POST",
-    });
-
-    if (res.status === 409) {
-      await fetch(`/api/watchlater/${id}`, {
-        method: "DELETE",
-      });
-    }
+    await fetch(`/api/watchlater/${id}`, { method: "POST" });
 
     setMovieList((prev) =>
       prev.map((movie) =>

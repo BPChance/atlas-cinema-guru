@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 /**
- * POST /api/favorites/:id
+ * POST /api/favorites/:id — toggles favorite
  */
 export const POST = auth(
   //@ts-ignore
@@ -23,31 +23,13 @@ export const POST = auth(
     } = req.auth;
 
     const exists = await favoriteExists(id, email);
+
     if (exists) {
-      return NextResponse.json(
-        { message: "Already favorited" },
-        { status: 409 }
-      );
+      await deleteFavorite(id, email);
+      return NextResponse.json({ message: "Removed from favorites" });
+    } else {
+      await insertFavorite(id, email);
+      return NextResponse.json({ message: "Added to favorites" });
     }
-
-    await insertFavorite(id, email);
-    return NextResponse.json({ message: "Favorite Added" });
-  }
-);
-
-/**
- * DELETE /api/favorites/:id
- */
-export const DELETE = auth(
-  //@ts-ignore
-  async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const { id } = params;
-
-    const {
-      user: { email }, //@ts-ignore
-    } = req.auth;
-
-    await deleteFavorite(id, email);
-    return NextResponse.json({ message: "Favorite removed" });
   }
 );
