@@ -5,7 +5,6 @@ import star from "@/assets/Outline/star.svg";
 import filledStar from "@/assets/Solid/filledStar.svg";
 import clock from "@/assets/Outline/clock.svg";
 import filledClock from "@/assets/Solid/filledClock.svg";
-import { toggleFavoriteAction, toggleWatchLaterAction } from "@/lib/actions";
 import { useState } from "react";
 
 type Title = {
@@ -28,7 +27,16 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
   const [movieList, setMovieList] = useState(titles);
 
   const handleToggleFavorite = async (id: string) => {
-    await toggleFavoriteAction(id, userEmail);
+    const res = await fetch(`/api/favorites/${id}`, {
+      method: "POST",
+    });
+
+    if (res.status === 409) {
+      await fetch(`/api/favorites/${id}`, {
+        method: "DELETE",
+      });
+    }
+
     setMovieList((prev) =>
       prev.map((movie) =>
         movie.id === id ? { ...movie, favorited: !movie.favorited } : movie
@@ -37,13 +45,23 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
   };
 
   const handleToggleWatchLater = async (id: string) => {
-    await toggleWatchLaterAction(id, userEmail);
+    const res = await fetch(`/api/watchlater/${id}`, {
+      method: "POST",
+    });
+
+    if (res.status === 409) {
+      await fetch(`/api/watchlater/${id}`, {
+        method: "DELETE",
+      });
+    }
+
     setMovieList((prev) =>
       prev.map((movie) =>
         movie.id === id ? { ...movie, watchLater: !movie.watchLater } : movie
       )
     );
   };
+
   if (!titles || titles.length === 0) {
     return (
       <p className="text-white text-center mt-8">
@@ -54,7 +72,7 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-16 w-full">
-      {titles.map((title) => (
+      {movieList.map((title) => (
         <div
           key={title.id}
           className="relative group border border-cyan-300 rounded-xl overflow-hidden transition-all duration-300"
