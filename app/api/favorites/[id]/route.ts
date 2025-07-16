@@ -24,7 +24,10 @@ export const POST = auth(
 
     const exists = await favoriteExists(id, email);
     if (exists) {
-      return NextResponse.json({ message: "Already favorited" });
+      return NextResponse.json(
+        { message: "Already favorited" },
+        { status: 409 }
+      );
     }
 
     await insertFavorite(id, email);

@@ -5,7 +5,7 @@ import star from "@/assets/Outline/star.svg";
 import filledStar from "@/assets/Solid/filledStar.svg";
 import clock from "@/assets/Outline/clock.svg";
 import filledClock from "@/assets/Solid/filledClock.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Title = {
   id: string;
@@ -25,6 +25,10 @@ type MoviesProps = {
 
 export default function Movies({ titles, userEmail }: MoviesProps) {
   const [movieList, setMovieList] = useState(titles);
+
+  useEffect(() => {
+    setMovieList(titles);
+  }, [titles]);
 
   const handleToggleFavorite = async (id: string) => {
     const res = await fetch(`/api/favorites/${id}`, {
@@ -62,7 +66,7 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
     );
   };
 
-  if (!titles || titles.length === 0) {
+  if (!movieList || movieList.length === 0) {
     return (
       <p className="text-white text-center mt-8">
         No movies found matching your filters.

@@ -25,7 +25,10 @@ export const POST = auth(
 
     const exists = await watchLaterExists(id, email);
     if (exists) {
-      return NextResponse.json({ message: "Already added to Watch Later" });
+      return NextResponse.json(
+        { message: "Already added to Watch Later" },
+        { status: 409 }
+      );
     }
 
     await insertWatchLater(id, email);

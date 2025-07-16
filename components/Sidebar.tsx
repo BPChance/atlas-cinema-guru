@@ -56,7 +56,7 @@ export default function Sidebar() {
         </Link>
       </nav>
       {expanded && (
-        <div className="hidden md:block p-4 mx-4 text-base rounded-md bg-teal-500">
+        <div className="hidden md:block p-2 mx-4 text-base rounded-md bg-teal-500">
           <div className="flex items-center justify-center gap-2 text-black font-bold">
             Latest Activities
           </div>
