@@ -6,9 +6,6 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-/**
- * POST /api/watchlater/:id — toggles watch later
- */
 export const POST = auth(
   //@ts-ignore
   async (req: NextRequest, { params }: { params: { id: string } }) => {
@@ -27,13 +24,28 @@ export const POST = auth(
     } = req.auth;
 
     const exists = await watchLaterExists(id, email);
-
     if (exists) {
-      await deleteWatchLater(id, email);
-      return NextResponse.json({ message: "Removed from watch later" });
-    } else {
-      await insertWatchLater(id, email);
-      return NextResponse.json({ message: "Added to watch later" });
+      return NextResponse.json(
+        { message: "Already added to Watch Later" },
+        { status: 409 }
+      );
     }
+
+    await insertWatchLater(id, email);
+    return NextResponse.json({ message: "Watch Later Added" });
+  }
+);
+
+export const DELETE = auth(
+  //@ts-ignore
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const { id } = params;
+
+    const {
+      user: { email }, //@ts-ignore
+    } = req.auth;
+
+    await deleteWatchLater(id, email);
+    return NextResponse.json({ message: "Watch Later removed" });
   }
 );

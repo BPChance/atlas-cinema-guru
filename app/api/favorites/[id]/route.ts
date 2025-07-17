@@ -3,30 +3,51 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 /**
- * POST /api/favorites/:id — toggles favorite
+ * POST /api/favorites/:id
  */
-export const POST = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  const { id } = params;
+export const POST = auth(
+  //@ts-ignore
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const { id } = params;
 
-  const session = await auth();
-  if (!session?.user?.email) {
-    return NextResponse.json(
-      { error: "Unauthorized - Not logged in" },
-      { status: 401 }
-    );
-  }
+    //@ts-ignore
+    if (!req.auth) {
+      return NextResponse.json(
+        { error: "Unauthorized - Not logged in" },
+        { status: 401 }
+      );
+    }
 
-  const email = session.user.email;
-  const exists = await favoriteExists(id, email);
+    const {
+      user: { email }, //@ts-ignore
+    } = req.auth;
 
-  if (exists) {
-    await deleteFavorite(id, email);
-    return NextResponse.json({ message: "Removed from favorites" });
-  } else {
+    const exists = await favoriteExists(id, email);
+    if (exists) {
+      return NextResponse.json(
+        { message: "Already favorited" },
+        { status: 409 }
+      );
+    }
+
     await insertFavorite(id, email);
-    return NextResponse.json({ message: "Added to favorites" });
+    return NextResponse.json({ message: "Favorite Added" });
   }
-};
+);
+
+/**
+ * DELETE /api/favorites/:id
+ */
+export const DELETE = auth(
+  //@ts-ignore
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const { id } = params;
+
+    const {
+      user: { email }, //@ts-ignore
+    } = req.auth;
+
+    await deleteFavorite(id, email);
+    return NextResponse.json({ message: "Favorite removed" });
+  }
+);
