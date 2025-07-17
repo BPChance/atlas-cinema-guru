@@ -19,7 +19,7 @@ export default function FavoritesPage({ userEmail }: { userEmail: string }) {
         `/api/favorites?page=${page}&userEmail=${userEmail}`
       );
       const data = await res.json();
-      setFavorites(data.titles);
+      setFavorites(data.favorites);
     }
 
     loadFavorites();
