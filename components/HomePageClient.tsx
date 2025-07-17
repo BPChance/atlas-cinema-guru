@@ -10,16 +10,20 @@ import { Title } from "@/lib/definitions";
 import { useRouter } from "next/navigation";
 
 export default function HomePageClient() {
-  const { data: session } = useSession();
-  const userEmail = session?.user?.email;
+  const { data: session, status: authStatus } = useSession();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!userEmail) {
+    if (authStatus === "unauthenticated") {
       router.push("/api/auth/signin");
     }
-  }, [userEmail]);
+  }, [authStatus, router]);
+
+  if (authStatus === "loading") {
+    return <p className="text-white text-center mt-6">Loading...</p>;
+  }
+  const userEmail = session?.user?.email;
 
   const [search, setSearch] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
