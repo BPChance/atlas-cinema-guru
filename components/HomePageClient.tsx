@@ -7,10 +7,15 @@ import GenreFilters from "./GenreFilters";
 import Movies from "./Movies";
 import Pagination from "./Pagination";
 import { Title } from "@/lib/definitions";
+import { redirect } from "next/navigation";
 
 export default function HomePageClient() {
   const { data: session } = useSession();
-  const userEmail = session?.user?.email ?? "";
+  const userEmail = session?.user?.email;
+
+  if (!userEmail) {
+    redirect("/api/auth/signin");
+  }
 
   const [search, setSearch] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
