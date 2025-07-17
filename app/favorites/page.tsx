@@ -1,8 +1,11 @@
 import { auth } from "@/auth";
 import FavoritesPageClient from "@/components/FavoritesPageClient";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-
-  return <FavoritesPageClient userEmail={session?.user?.email ?? ""} />;
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
+  return <FavoritesPageClient />;
 }

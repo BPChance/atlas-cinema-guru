@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import SearchFilters from "./SearchFilters";
 import GenreFilters from "./GenreFilters";
 import Movies from "./Movies";
 import Pagination from "./Pagination";
 import { Title } from "@/lib/definitions";
 
-export default function HomePageClient({ userEmail }: { userEmail: string }) {
+export default function HomePageClient() {
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email ?? "";
+
   const [search, setSearch] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
   const [minYear, setMinYear] = useState(1990);
