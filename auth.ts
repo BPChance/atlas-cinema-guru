@@ -7,15 +7,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     logo: "/logo.png",
     buttonText: "#ffffff",
   },
-  providers: [GitHub],
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
   callbacks: {
     authorized: async ({ auth }) => {
       return !!auth;
     },
-    async jwt({ token, account, user, profile }) {
-      if (user?.email) {
-        token.email = user.email;
-      } else if (profile?.email) {
+    async jwt({ token, account, profile }) {
+      if (profile?.email) {
         token.email = profile.email;
       }
       return token;
