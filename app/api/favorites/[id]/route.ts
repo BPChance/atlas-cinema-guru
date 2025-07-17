@@ -7,7 +7,10 @@ import { auth } from "@/auth";
  */
 export const POST = auth(
   //@ts-ignore
-  async (req: NextRequest, { params }: { params: { id: string } }) => {
+  async (
+    req: NextRequest & { auth?: any },
+    { params }: { params: { id: string } }
+  ) => {
     const { id } = params;
 
     //@ts-ignore
@@ -17,6 +20,7 @@ export const POST = auth(
         { status: 401 }
       );
     }
+    console.log("AUTH OBJECT:", req.auth);
 
     const {
       user: { email }, //@ts-ignore

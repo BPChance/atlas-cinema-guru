@@ -12,8 +12,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     authorized: async ({ auth }) => {
       return !!auth;
     },
-    async jwt({ token, account, profile }) {
-      if (profile?.email) {
+    async jwt({ token, account, user, profile }) {
+      if (user?.email) {
+        token.email = user.email;
+      } else if (profile?.email) {
         token.email = profile.email;
       }
       return token;
