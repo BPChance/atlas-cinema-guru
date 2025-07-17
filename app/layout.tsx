@@ -4,6 +4,7 @@ import { inter } from "./fonts";
 import ClientLayout from "./ClientLayout";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Cinema Guru | Atlas School",
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: Props) {
       <body
         className={`${inter.className} antialiased bg-[#00003c] text-white`}
       >
-        <ClientLayout>
+        <SessionProvider>
           <div className="h-screen flex flex-col">
             <Header />
             <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: Props) {
               <main className="flex-1 overflow-y-auto p-4">{children}</main>
             </div>
           </div>
-        </ClientLayout>
+        </SessionProvider>
       </body>
     </html>
   );
