@@ -8,7 +8,7 @@ import { auth } from "@/auth";
 export const POST = auth(
   //@ts-ignore
   async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const { id } = await params;
+    const { id } = params;
 
     //@ts-ignore
     if (!req.auth) {
@@ -24,10 +24,7 @@ export const POST = auth(
 
     const exists = await favoriteExists(id, email);
     if (exists) {
-      return NextResponse.json(
-        { message: "Already favorited" },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: "Already favorited" });
     }
 
     await insertFavorite(id, email);

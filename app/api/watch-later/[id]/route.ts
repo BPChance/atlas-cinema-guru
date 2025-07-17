@@ -25,10 +25,7 @@ export const POST = auth(
 
     const exists = await watchLaterExists(id, email);
     if (exists) {
-      return NextResponse.json(
-        { message: "Already added to Watch Later" },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: "Already added to Watch Later" });
     }
 
     await insertWatchLater(id, email);
@@ -39,7 +36,7 @@ export const POST = auth(
 export const DELETE = auth(
   //@ts-ignore
   async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const { id } = await params;
+    const { id } = params;
 
     const {
       user: { email }, //@ts-ignore
