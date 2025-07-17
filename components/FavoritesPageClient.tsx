@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import Movies from "@/components/Movies";
 import Pagination from "@/components/Pagination";
 import { Title } from "@/lib/definitions";
 
-export default function FavoritesPageClient({
-  userEmail,
-}: {
-  userEmail: string;
-}) {
+export default function FavoritesPageClient() {
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email ?? "";
   const [favorites, setFavorites] = useState<Title[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
