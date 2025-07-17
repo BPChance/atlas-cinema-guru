@@ -6,3 +6,4 @@ export default async function Page() {
 
   return <FavoritesPageClient userEmail={session?.user?.email ?? ""} />;
 }
+
