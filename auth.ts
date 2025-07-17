@@ -9,23 +9,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers: [
     GitHub({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.user = user;
-      return token;
-    },
-    async session({ session, token }) {
-      if (token?.user) session.user = token.user as any;
-      return session;
-    },
     authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
     },
   },
