@@ -30,8 +30,9 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
     setMovieList(titles);
   }, [titles]);
 
-  const handleToggleFavorite = async (id: string) => {
-    await fetch(`/api/favorites/${id}`, { method: "POST" });
+  const handleToggleFavorite = async (id: string, isFavorited: boolean) => {
+    const method = isFavorited ? "DELETE" : "POST";
+    await fetch(`/api/favorites/${id}`, { method });
 
     setMovieList((prev) =>
       prev.map((movie) =>
@@ -40,8 +41,9 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
     );
   };
 
-  const handleToggleWatchLater = async (id: string) => {
-    await fetch(`/api/watchlater/${id}`, { method: "POST" });
+  const handleToggleWatchLater = async (id: string, isWatchLater: boolean) => {
+    const method = isWatchLater ? "DELETE" : "POST";
+    await fetch(`/api/watch-later/${id}`, { method });
 
     setMovieList((prev) =>
       prev.map((movie) =>
@@ -87,7 +89,9 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
             </span>
           </div>
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2 z-10">
-            <button onClick={() => handleToggleFavorite(title.id)}>
+            <button
+              onClick={() => handleToggleFavorite(title.id, title.favorited)}
+            >
               <Image
                 src={title.favorited ? filledStar : star}
                 alt="Favorite"
@@ -95,7 +99,9 @@ export default function Movies({ titles, userEmail }: MoviesProps) {
                 height={20}
               />
             </button>
-            <button onClick={() => handleToggleWatchLater(title.id)}>
+            <button
+              onClick={() => handleToggleWatchLater(title.id, title.watchLater)}
+            >
               <Image
                 src={title.watchLater ? filledClock : clock}
                 alt="Watch Later"

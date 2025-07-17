@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Movies from "components/Movies";
-import { Title } from "@/lib/definitions";
+import Movies from "@/components/Movies";
 import Pagination from "@/components/Pagination";
+import { Title } from "@/lib/definitions";
 
-export default function FavoritesPage({ userEmail }: { userEmail: string }) {
+export default function FavoritesPageClient({
+  userEmail,
+}: {
+  userEmail: string;
+}) {
   const [favorites, setFavorites] = useState<Title[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
@@ -15,14 +19,15 @@ export default function FavoritesPage({ userEmail }: { userEmail: string }) {
 
   useEffect(() => {
     async function loadFavorites() {
-      const res = await fetch(
-        `/api/favorites?page=${page}&userEmail=${userEmail}`
-      );
+      const res = await fetch(`/api/favorites?page=${page}`, {
+        cache: "no-store",
+        credentials: "include",
+      });
       const data = await res.json();
-      setFavorites(data.titles);
+      setFavorites(data.favorites);
     }
 
-    loadFavorites();
+    if (userEmail) loadFavorites();
   }, [userEmail, page]);
 
   return (
