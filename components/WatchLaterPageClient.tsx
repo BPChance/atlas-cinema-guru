@@ -23,6 +23,7 @@ export default function WatchLaterPage() {
     async function loadWatchLater() {
       const res = await fetch(`/api/watch-later?page=${page}`, {
         cache: "no-store",
+        credentials: "include",
       });
       const data = await res.json();
       setWatchLater(data.watchLater);

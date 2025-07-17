@@ -16,7 +16,7 @@ export default function Header() {
       </div>
       <div className="hidden md:flex items-center">
         <span className="text-black">
-          Welcome{session?.user?.email ? `, ${session.user.email}` : ""}
+          Welcome, {session?.user?.email ?? ""}
         </span>
         <button
           onClick={() => signOut()}

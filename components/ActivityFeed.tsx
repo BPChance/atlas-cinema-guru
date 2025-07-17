@@ -14,7 +14,10 @@ export default function ActivityFeed() {
 
   useEffect(() => {
     async function loadActivities() {
-      const res = await fetch("/api/activities");
+      const res = await fetch("/api/activities", {
+        cache: "no-store",
+        credentials: "include",
+      });
       const data = await res.json();
       setActivities(data.activities);
     }
