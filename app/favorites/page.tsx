@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  if (!session) {
+  if (!session?.user?.email) {
     redirect("/api/auth/signin");
   }
 
-  return <FavoritesPageClient />;
+  return <FavoritesPageClient userEmail={session.user.email} />;
 }

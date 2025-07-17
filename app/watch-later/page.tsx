@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  if (!session) {
+  if (!session?.user?.email) {
     redirect("/api/auth/signin");
   }
 
-  return <WatchLaterPageClient />;
+  return <WatchLaterPageClient userEmail={session.user.email} />;
 }
